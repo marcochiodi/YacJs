@@ -34,14 +34,11 @@
         
         .ombra:hover {
             opacity: 1;
-        }
-        
-        .slice {
-            -webkit-transition: all 1s ease;
-            -moz-transition: all 1s ease;
-            -ms-transition: all 1s ease;
-            -o-transition: all 1s ease;
-            transition: all 1s ease;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
         }
     </style>
 </head>
@@ -74,55 +71,55 @@
                     value: 20,
                     fill: "red",
                     stroke: "white",
-                    label: "Maggio",
+                    label: "January",
                     class: "ombra"
                 }, {
                     value: 123,
                     fill: "green",
                     stroke: "white",
-                    label: "Luglio",
+                    label: "February",
                     class: "ombra"
                 }, {
                     value: 232,
                     fill: "blue",
                     stroke: "white",
-                    label: "Gennaio",
+                    label: "March",
                     class: "ombra"
                 }, {
                     value: 160,
                     fill: "yellow",
                     stroke: "white",
-                    label: "Gennaio",
+                    label: "April",
                     class: "ombra"
                 }, {
-                    value: 1024,
+                    value: 124,
                     fill: "purple",
                     stroke: "white",
-                    label: "Settembre",
+                    label: "May",
                     class: "ombra"
                 }, {
                     value: 190,
                     fill: "magenta",
                     stroke: "white",
-                    label: "Dicembre",
+                    label: "June",
                     class: "ombra"
                 }, {
                     value: 60,
                     fill: "gray",
                     stroke: "white",
-                    label: "Marzo",
+                    label: "July",
                     class: "ombra"
                 }, {
                     value: 30,
                     fill: "yellow",
                     stroke: "white",
-                    label: "Maggio",
+                    label: "August",
                     class: "ombra"
                 }, {
                     value: 200,
                     fill: "green",
                     stroke: "white",
-                    label: "Luglio",
+                    label: "September",
                     class: "ombra"
                 }],
                 click: function(e) {
@@ -153,8 +150,8 @@
                     class: "ombra"
                 }]
             }
-            $("#grafico2").yac("pie", data2);
-            $("#grafico").yac("bar", data2);
+            $("#grafico2").yac("pie", data);
+            $("#grafico").yac("bar", data);
             $("#grafico3").yac("doughnut", data);
             $("#grafico4").yac("line", data);
         })

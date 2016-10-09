@@ -50,10 +50,10 @@
             var txt = makeSVG("text", {
                     x: "0%",
                     y: h,
-                    "alignment-baseline": "baseline",
+                    "alignment-baseline": "middle",
                     "text-anchor": "end"
                 },
-                ((10 - c) * (max / 100) * 10).toFixed(2) + "&nbsp;"
+                ((10 - c) * (max / 100) * 10).toFixed(1) + "&nbsp;"
             )
             s.append(ln);
             s.append(txt);
@@ -77,6 +77,7 @@
                 x: px + (50 / ncol) + "%",
                 y: "100%",
                 width: ((100 / ncol) - 1) + "%",
+                height: "auto",
                 "text-anchor": "middle",
                 "alignment-baseline": "text-before-edge"
             }, e.label);
@@ -130,7 +131,7 @@
             var txt = makeSVG("text", {
                     x: "0%",
                     y: h,
-                    "alignment-baseline": "baseline",
+                    "alignment-baseline": "middle",
                     "text-anchor": "end"
                 },
                 parseInt((10 - c) * (max / 100) * 10) + "&nbsp;"
@@ -141,7 +142,7 @@
         var ox = "0%";
         var oy = "100%";
         $(data.columns).each(function(i, e) {
-            var px = (100 / ncol * i);
+            var px = (100 / ncol * (i + 1));
             var cl = makeSVG("circle", {
                 cx: px + "%",
                 cy: (100 - (u * e.value)) + "%",
@@ -155,15 +156,15 @@
             })
             var line = makeSVG("line", { x1: px + "%", x2: ox, y1: (100 - (u * e.value)) + "%", y2: oy, stroke: "grey", "stroke-width": 2 });
             var lb = makeSVG("text", {
-                x: px + (50 / ncol) + "%",
+                x: px + "%",
                 y: "100%",
-                width: (100 / ncol) + "%",
+                //width: (100 / ncol) + "%",
                 "text-anchor": "middle",
                 "alignment-baseline": "text-before-edge"
             }, e.label);
             var lbvalue = makeSVG("text", {
-                x: px + (50 / ncol) + "%",
-                y: 100 - (u * e.value) + "%",
+                x: px + "%",
+                y: 98 - (u * e.value) + "%",
                 width: (100 / ncol) + "%",
                 "text-anchor": "middle",
                 "alignment-baseline": "baseline"
@@ -179,6 +180,7 @@
 
             ox = px + "%";
             oy = (100 - (u * e.value)) + "%";
+            //var points +=
 
         })
         wrapper.append(s);
