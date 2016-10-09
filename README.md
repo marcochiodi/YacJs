@@ -44,9 +44,6 @@ Using SVG it has no other dependencies unless jQuery.
                 }],
                 click: function(e) {
                     alert($(e.target).attr("label") + " - " + $(e.target).attr("value"));
-                },
-                mouseover: function(e) {
-                    //alert($(e.target).attr("label") + " - " + $(e.target).attr("value"));
                 }
             }
     </code>
