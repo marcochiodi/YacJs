@@ -1,18 +1,38 @@
 (function($) {
-    $.fn.yacBarChart = function(data) {
-        "use strict";
-        var svg = this;
+    "use strict";
+    $.fn.yac = function(type, data) {
+        var selector = this;
+        switch (type) {
+            case "bar":
+                selector = bar(selector, data);
+                break;
+            case "line":
+                selector = line(selector, data);
+                break;
+            case "pie":
+                selector = pie(selector, data);
+                break;
+            case "doughnut":
+                selector = doughnut(selector, data);
+                break;
+        }
+        return selector;
+    }
+
+    function bar(selector, data) {
         var wrapper = makeSVG("svg", { x: 0, y: 0, width: "100%", height: "100%", viewBox: "0 0 800 600" });
         var s = makeSVG("svg", { x: "5%", y: "5%", width: "90%", height: "90%", fill: "#22222", style: "overflow:visible;" });
         wrapper = $(wrapper);
         s = $(s);
-        var ncol = data.columns.length + 1;
-        var colw = parseInt(100 / ncol);
-        var max = GetMax(data.columns);
+        var ncol = data.columns.length;
+        var colw = parseInt(Math.floor(100 / ncol));
+        var max = getMax(data.columns);
+        max = roundMax(max);
+
         var u = 100 / max;
         //axis
         var liney = makeSVG("line", { x1: "0%", x2: "0%", y1: "0%", y2: "100%", stroke: "#888888", "stroke-width": 1 });
-        var linex = makeSVG("line", { x1: "0%", x2: "100%", y1: "100%", y2: "100%", stroke: "#888888", "stroke-width": 1 });
+        var linex = makeSVG("line", { x1: "0%", x2: "105%", y1: "100%", y2: "100%", stroke: "#888888", "stroke-width": 1 });
         s.append(liney);
         s.append(linex);
         //unit dotted lines
@@ -20,7 +40,7 @@
             var h = c * 10 + "%";
             var ln = makeSVG("line", {
                 x1: "0%",
-                x2: "100%",
+                x2: "105%",
                 y1: h,
                 y2: h,
                 stroke: "#888888",
@@ -33,7 +53,7 @@
                     "alignment-baseline": "baseline",
                     "text-anchor": "end"
                 },
-                parseInt((10 - c) * (max / 100) * 10) + "&nbsp;"
+                ((10 - c) * (max / 100) * 10).toFixed(2) + "&nbsp;"
             )
             s.append(ln);
             s.append(txt);
@@ -51,7 +71,7 @@
                 height: (u * e.value) + "%",
                 label: e.label,
                 value: e.value,
-                class: e.class
+                class: "yac-slice " + e.class
             })
             var lb = makeSVG("text", {
                 x: px + (50 / ncol) + "%",
@@ -75,25 +95,24 @@
             s.append(lbvalue);
         })
         wrapper.append(s);
-        svg.append(wrapper);
-        return this;
+        selector.append(wrapper);
+        return selector;
 
     }
-    $.fn.yacLineChart = function(data) {
-        "use strict";
-        var svg = this;
 
+    function line(selector, data) {
         var s = makeSVG("svg", { x: "5%", y: "5%", width: "90%", height: "90%", fill: "#22222", style: "overflow:visible;" });
         var wrapper = makeSVG("svg", { x: 0, y: 0, width: "100%", height: "100%", viewBox: "0 0 800 600" });
         wrapper = $(wrapper);
         s = $(s);
-        var ncol = data.columns.length + 1;
+        var ncol = data.columns.length;
         var colw = parseInt(100 / (ncol - 1));
-        var max = GetMax(data.columns);
+        var max = getMax(data.columns);
+        max = roundMax(max);
         var u = 100 / max;
         //axis
         var liney = makeSVG("line", { x1: "0%", x2: "0%", y1: "0%", y2: "100%", stroke: "#888888", "stroke-width": 1 });
-        var linex = makeSVG("line", { x1: "0%", x2: "100%", y1: "100%", y2: "100%", stroke: "#888888", "stroke-width": 1 });
+        var linex = makeSVG("line", { x1: "0%", x2: "105%", y1: "100%", y2: "100%", stroke: "#888888", "stroke-width": 1 });
         s.append(liney);
         s.append(linex);
         //unit dotted lines
@@ -101,7 +120,7 @@
             var h = c * 10 + "%";
             var ln = makeSVG("line", {
                 x1: "0%",
-                x2: "100%",
+                x2: "105%",
                 y1: h,
                 y2: h,
                 stroke: "#888888",
@@ -138,20 +157,21 @@
             var lb = makeSVG("text", {
                 x: px + (50 / ncol) + "%",
                 y: "100%",
-                width: ((100 / ncol) - 1) + "%",
+                width: (100 / ncol) + "%",
                 "text-anchor": "middle",
                 "alignment-baseline": "text-before-edge"
             }, e.label);
             var lbvalue = makeSVG("text", {
                 x: px + (50 / ncol) + "%",
                 y: 100 - (u * e.value) + "%",
-                width: ((100 / ncol) - 1) + "%",
+                width: (100 / ncol) + "%",
                 "text-anchor": "middle",
                 "alignment-baseline": "baseline"
             }, e.value);
 
             $(cl).on("click", data.click);
             $(cl).on("mouseover", data.mouseover);
+
             s.append(lb);
             s.append(lbvalue);
             s.append(line);
@@ -162,18 +182,17 @@
 
         })
         wrapper.append(s);
-        svg.append(wrapper);
-        return this;
+        selector.append(wrapper);
+        return selector;
     }
-    $.fn.yacPieChart = function(data) {
-        "use strict";
-        var svg = this;
+
+    function pie(selector, data) {
         var s = makeSVG("svg", { x: 0, y: 0, width: "100%", height: "100%", fill: "yellow", viewBox: "0 0 600 600" });
         s = $(s);
-        svg.append(s);
+        selector.append(s);
         var ncol = data.columns.length + 2;
         var tot = 300 * Math.PI;
-        var totArr = GetTot(data.columns);
+        var totArr = getTot(data.columns);
         var prev = 0;
         var k = 300;
         var legenda = "";
@@ -209,36 +228,27 @@
                 fill: "#eeeeee",
                 stroke: "black"
             });
-
             s.append(r);
             s.append(text);
-
-
             prev += angle;
         });
-
-        return this;
+        return selector;
     }
-    $.fn.yacDoughnutChart = function(data) {
-        "use strict";
-        var svg = this;
+
+    function doughnut(selector, data) {
         var s = makeSVG("svg", { x: 0, y: 0, width: "100%", height: "100%", fill: "none", viewBox: "0 0 300 300" });
         s = $(s);
-        svg.append(s);
         var ncol = data.columns.length + 2;
         var tot = 2 * 100 * Math.PI;
-        var totArr = GetTot(data.columns);
+        var totArr = getTot(data.columns);
         var prev = 0;
-        /*var circlebase = makeSVG("circle", {
-            r: k + 1,
-            cx: "50%",
-            cy: "50%",
-            fill: "white",
-            stroke: "#888888",
-            "stroke-width": "1"
-        });
-        s.append(circlebase);*/
-
+        var text = makeSVG("text", {
+            x: "150",
+            y: "150",
+            "text-anchor": "middle",
+            "alignment-baseline": "middle",
+            fill: "black"
+        }, "");
         $(data.columns).each(function(i, e) {
             var v = this.value * tot / totArr;
             var circle = makeSVG("circle", {
@@ -255,12 +265,22 @@
                 //fill: "none"
             });
             $(circle).on("click", data.click);
-            $(circle).on("mouseover", data.mouseover);
+            $(circle).on("mouseover", function() {
+                    $(this).attr("stroke-width", "50");
+                    $(text).html($(this).attr("label") + ": " + $(this).attr("value"));
+                }) //data.mouseover);
+            $(circle).on("mouseout", function() {
+                    $(circle).attr("stroke-width", "35");
+                    $(text).html("");
+                }) //data.mouseover);
+
 
             s.append(circle);
             prev += v;
         })
-        return this;
+        s.append(text);
+        selector.append(s);
+        return selector;
     }
 
     function makeSVG(tag, attrs, value) {
@@ -273,7 +293,7 @@
         return el;
     }
 
-    function GetMax(arr) {
+    function getMax(arr) {
         var max = 0;
         $(arr).each(function() {
             if (this.value > max) max = this.value;
@@ -281,7 +301,21 @@
         return max;
     }
 
-    function GetTot(arr) {
+    function roundMax(max) {
+        if (max < 10)
+            max = max.ceilTo(1);
+        else
+        if (max < 100)
+            max = max.ceilTo(10);
+        else
+        if (max < 1000)
+            max = max.ceilTo(100);
+        else
+            max = max.ceilTo(100);
+        return max;
+    }
+
+    function getTot(arr) {
         var tot = 0;
         $(arr).each(function() {
             tot += this.value;
@@ -301,8 +335,8 @@
 
         var largeArc = endAngle - startAngle <= Math.PI ? 0 : 1;
         var ang = startAngle + ((endAngle - startAngle) / 2);
-        xa = x + 10 + Math.cos(ang) * r;
-        ya = y + 10 - (Math.sin(ang) * r);
+        var xa = x + 10 + Math.cos(ang) * r;
+        var ya = y + 10 - (Math.sin(ang) * r);
         return ['M', x, y,
             'L', x + Math.cos(startAngle) * r, y - (Math.sin(startAngle) * r),
             'A', r, r, 0, largeArc, 0, x + Math.cos(endAngle) * r, y - (Math.sin(endAngle) * r),
@@ -317,6 +351,10 @@
         return { x: xa, y: ya };
     }
 
+    Number.prototype.ceilTo = function(nTo) {
+        nTo = nTo || 10;
+        return Math.ceil(this * (1 / nTo)) * nTo;
+    }
 
 
 }(jQuery));

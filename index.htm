@@ -66,7 +66,7 @@
 
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="js/yac.min.js"></script>
+    <script type="text/javascript" src="js/yac.js"></script>
     <script>
         $("document").ready(function() {
             var data = {
@@ -95,7 +95,7 @@
                     label: "Gennaio",
                     class: "ombra"
                 }, {
-                    value: 324,
+                    value: 1024,
                     fill: "purple",
                     stroke: "white",
                     label: "Settembre",
@@ -134,29 +134,29 @@
             }
             var data2 = {
                 columns: [{
-                    value: [20, 23],
+                    value: 2,
                     fill: "red",
                     stroke: "white",
                     label: "Maggio",
                     class: "ombra"
                 }, {
-                    value: [123, 24],
+                    value: 3,
                     fill: "green",
                     stroke: "white",
                     label: "Luglio",
                     class: "ombra"
                 }, {
-                    value: [232, 34],
+                    value: 1.5,
                     fill: "blue",
                     stroke: "white",
                     label: "Gennaio",
                     class: "ombra"
                 }]
             }
-            $("#grafico2").yacBarChart(data);
-            $("#grafico").yacPieChart(data);
-            $("#grafico3").yacLineChart(data);
-            $("#grafico4").yacDoughnutChart(data);
+            $("#grafico2").yac("pie", data2);
+            $("#grafico").yac("bar", data2);
+            $("#grafico3").yac("doughnut", data);
+            $("#grafico4").yac("line", data);
         })
     </script>
 </body>
