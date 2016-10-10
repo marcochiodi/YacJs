@@ -1,15 +1,15 @@
 # YacJs
 Yet Another Chart Js<br>
 
-A simple jQuery plugin for create 4 basic Charts: Bar, Pie, Line and Doughnut. 
-Using SVG it has no other dependencies unless jQuery. 
+A simple javascript <del>jQuery</del> plugin for create 4 basic Charts: Bar, Pie, Line and Doughnut. 
+Using SVG it has no other dependencies <del>unless jQuery</del>. 
 
 #How to install
 <ul>
 <li>Add yac.min.js in your js folder</li>
-<li>Reference it in your html file after jQuery:<br>
+<li>Reference it in your html file<br>
 <code>
-      &lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;
+      <del>&lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;</del>
 </code><br>
 <code>
        &lt;script type="text/javascript" src="js/yac.js"&gt;&lt;/script&gt;
@@ -34,16 +34,16 @@ Using SVG it has no other dependencies unless jQuery.
                     fill: "red",
                     stroke: "white",
                     label: "January",
-                    class: "ombra"
+                    class: "yourClass"
                 }, {
                     value: 123,
                     fill: "green",
                     stroke: "white",
                     label: "February",
-                    class: "ombra"
+                    class: "yourClass"
                 }],
                 click: function(e) {
-                    alert($(e.target).attr("label") + " - " + $(e.target).attr("value"));
+                    alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
                 }
             }
     </code>
@@ -52,7 +52,7 @@ Using SVG it has no other dependencies unless jQuery.
 <li>
 Choose your favourite chart between "bar","line","pie","doughnut" and add this:<br>
 <pre><code>
-  $("#div_chart").yac("pie", data);
+  var chart = yac("pie", "div_chart", data);
 </code></pre>
 </li>
 </ul>
