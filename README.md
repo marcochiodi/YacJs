@@ -52,7 +52,7 @@ Using SVG it has no other dependencies <del>unless jQuery</del>.
 <li>
 Choose your favourite chart between "bar","line","pie","doughnut" and add this:<br>
 <pre><code>
-  var chart = yac("pie", "div_chart", data);
+  var chart = new yac("pie", "div_chart", data);
 </code></pre>
 </li>
 </ul>
