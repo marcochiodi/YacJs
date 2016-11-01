@@ -54,7 +54,6 @@
             cl.addEventListener("mouseover", data.mouseover);
             s.appendChild(cl);
             s.appendChild(lb);
-
         })
     }
     function pie(data) {
@@ -84,26 +83,25 @@
             path.addEventListener("mouseover", data.mouseover);
             var xa1, xa2, ya1, ya2;
 
-
             s.appendChild(path);
             if (data.numbers) {
-                var a1 = getHalfArc(cx, cy, k / 2, prev, (prev + angle));
-                var a2 = getHalfArc(cx, cy, k / 2 + 50, prev, (prev + angle));
-                var line = makeSVG(sE.l, { x1: a1.x, y1: a1.y, x2: a2.x, y2: a2.y, stroke: "black" });
-                var text = makeSVG(sE.t, { x: a2.x, y: a2.y, fill: "black" }, e.value);
+                //var a1 = getHalfArc(cx, cy, k / 2, prev, (prev + angle));
+                var a2 = getHalfArc(cx, cy, k / 2 + 20, prev, (prev + angle));
+                //var line = makeSVG(sE.l, { x1: a1.x, y1: a1.y, x2: a2.x, y2: a2.y, stroke: "black" });
+                var text = makeSVG(sE.t, { x: a2.x, y: a2.y, fill: "black", "text-anchor": "middle","alignment-baseline": "middle" }, e.value);
                 s.appendChild(text);
-                var backbox = text.getBBox();
-                var r = makeSVG(sE.r, {
-                    x: backbox.x - 5,
-                    y: backbox.y - 3,
-                    width: backbox.width + 10,
-                    height: backbox.height + 6,
-                    fill: "#eeeeee",
-                    stroke: "black"
-                });
-                s.appendChild(line);
-                s.appendChild(r);
-                s.appendChild(text);
+                //var backbox = text.getBBox();
+                //var r = makeSVG(sE.r, {
+                //    x: backbox.x - 5,
+                //    y: backbox.y - 3,
+                //    width: backbox.width + 10,
+                //    height: backbox.height + 6,
+                //    fill: "#eeeeee",
+                //    stroke: "black"
+                //});
+                //s.appendChild(line);
+                //s.appendChild(r);
+                //s.appendChild(text);
             }
             prev += angle;
         });
@@ -111,6 +109,7 @@
     function doughnut(data) {
         var k = viewporty;
         if (viewporty > viewportx) k = viewportx;
+        k = k / 1.2;
         var cx = viewportx / 2;
         var cy = viewporty / 2;
 
@@ -238,7 +237,7 @@
             y: "5%",
             width: "90%",
             height: "90%",
-            fill: "#22222",
+            //fill: "#22222",
             style: "overflow:visible;",
             viewBox: "0 0 " + viewportx + " " + viewporty
         });
@@ -337,11 +336,16 @@
         var ya = y - (Math.sin(ang) * r);
         return { x: xa, y: ya };
     }
+
     Number.prototype.ceilTo = function(nTo) {
         nTo = nTo || 10;
         return Math.ceil(this * (1 / nTo)) * nTo;
     }
     window.yac = function(t, sel, d) {
+        if (d.viewportx)
+            viewportx = d.viewportx;
+        if (d.viewporty)
+            viewporty = d.viewporty;
         type = t;
         selector = sel;
         data = d;
@@ -366,4 +370,5 @@
         wrapper.appendChild(s);
         document.getElementById(sel).appendChild(wrapper);
     }
+
 })();
