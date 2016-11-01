@@ -1,16 +1,13 @@
 # YacJs
 Yet Another Chart Js<br>
 
-A simple javascript <del>jQuery</del> plugin for create 4 basic Charts: Bar, Pie, Line and Doughnut. 
-Using SVG it has no other dependencies <del>unless jQuery</del>. 
+A simple javascript plugin for create 4 basic Charts: Bar, Pie, Line and Doughnut. 
+Using SVG it has no other dependencies. 
 
 #How to install
 <ul>
 <li>Add yac.min.js in your js folder</li>
 <li>Reference it in your html file<br>
-<code>
-      <del>&lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;</del>
-</code><br>
 <code>
        &lt;script type="text/javascript" src="js/yac.js"&gt;&lt;/script&gt;
 </code>
