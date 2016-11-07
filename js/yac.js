@@ -12,6 +12,7 @@
         t:"text",
         p:"polyline"
     }
+    //bar chart 
     function bar(data) {
         var ncol = data.columns.length;
         var colw = parseInt(Math.floor(100 / ncol));
@@ -23,22 +24,28 @@
             var cl = makeSVG(sE.r, {
                 x: px + 2,
                 y: (viewporty - (viewporty / max * e.value)),
-                "stroke-width": "2",
+                //"stroke-width": "2",
+                //stroke:e.stroke,
                 fill: e.fill,
                 width: (viewportx / ncol - 4),
                 height: (viewporty / max * e.value),
                 label: e.label,
                 value: e.value,
-                class: "yac-slice " + e.class
+                class: "yac-tt " + e.class
             })
+
             var lb = makeSVG(sE.t, {
                 x: px + (viewportx / 2 / ncol),
                 y: viewporty,
                 width: ((viewportx / ncol) - 1),
                 height: "auto",
                 "text-anchor": "middle",
-                "alignment-baseline": "text-before-edge"
+                "alignment-baseline": "text-before-edge",
+                label:e.label,
+                value:"",
+                class:"baselabel",
             }, e.label);
+            
             if (data.numbers) {
                 var lbvalue = makeSVG(sE.t, {
                     x: px + (viewportx / 2 / ncol),
@@ -51,11 +58,13 @@
             }
 
             cl.addEventListener("click", data.click);
-            cl.addEventListener("mouseover", data.mouseover);
+            addtt(cl);
+            addtt(lb);
             s.appendChild(cl);
             s.appendChild(lb);
         })
     }
+    //pie chart
     function pie(data) {
         var k = viewporty;
         if (viewporty > viewportx) k = viewportx;
@@ -77,35 +86,22 @@
                 "stroke-width": 2,
                 label: e.label,
                 value: e.value,
-                class: e.class
+                class: "yac-tt " + e.class
             });
             path.addEventListener("click", data.click);
-            path.addEventListener("mouseover", data.mouseover);
+            addtt(path);
             var xa1, xa2, ya1, ya2;
 
             s.appendChild(path);
             if (data.numbers) {
-                //var a1 = getHalfArc(cx, cy, k / 2, prev, (prev + angle));
                 var a2 = getHalfArc(cx, cy, k / 2 + 20, prev, (prev + angle));
-                //var line = makeSVG(sE.l, { x1: a1.x, y1: a1.y, x2: a2.x, y2: a2.y, stroke: "black" });
                 var text = makeSVG(sE.t, { x: a2.x, y: a2.y, fill: "black", "text-anchor": "middle","alignment-baseline": "middle" }, e.value);
                 s.appendChild(text);
-                //var backbox = text.getBBox();
-                //var r = makeSVG(sE.r, {
-                //    x: backbox.x - 5,
-                //    y: backbox.y - 3,
-                //    width: backbox.width + 10,
-                //    height: backbox.height + 6,
-                //    fill: "#eeeeee",
-                //    stroke: "black"
-                //});
-                //s.appendChild(line);
-                //s.appendChild(r);
-                //s.appendChild(text);
             }
             prev += angle;
         });
     }
+    //doughnut chart
     function doughnut(data) {
         var k = viewporty;
         if (viewporty > viewportx) k = viewportx;
@@ -136,18 +132,18 @@
                 stroke: e.fill,
                 label: e.label,
                 value: e.value,
-                class: e.class,
+                class: "yac-tt " + e.class,
                 fill: "none"
             });
             circle.addEventListener("click", data.click);
             circle.addEventListener("mouseover", function() {
                     this.setAttribute("stroke-width", k / 5);
                     text.innerHTML = this.getAttribute("label") + ": " + this.getAttribute("value");
-                }) //data.mouseover);
+                })
             circle.addEventListener("mouseout", function() {
                     this.setAttribute("stroke-width", k / 6);
                     text.innerHTML = "";
-                }) //data.mouseover);
+                })
 
 
             s.appendChild(circle);
@@ -155,9 +151,11 @@
         })
         s.appendChild(text);
     }
+    //line/multiline chart
     function line(data) {
         var ncol = data.labels.length - 1;
-        var max = 0; //getMax(data.columns[0]);
+        var max = 0; 
+        //get max value between all arrays
         data.columns.forEach(function(e,i){
             var m = Math.max.apply(Math,e.values);
             if (m > max) max = m; 
@@ -169,24 +167,42 @@
         data.columns.forEach(function(element, index) {
             var ox = "0";
             var oy = viewporty;
-            var points = ox + "," + oy + " ";
-            var color = ((data.fill) ? element.color : "none");
+            var points = "";
+            var areapoints = "";
+            var color = ((data.areafill) ? element.color : "none");
+            var arr_points = [];
             element.values.forEach(function(e, i) {
                 ox = (viewportx / ncol * i);
                 oy = (viewporty - (viewporty / max * e));
+                //vertical line for chart
+                if (data.vline && i!=0){
+                    var vline = makeSVG(sE.l,{
+                            x1:ox,
+                            x2:ox,
+                            y1:0,
+                            y2:"100%",
+                            stroke: "#888888",
+                            "stroke-width": 0.5,
+                            "stroke-dasharray": "5, 5"
+                        });
+                    s.appendChild(vline);
+                }
+                //points
                 if (data.points) {
                     var cl = makeSVG(sE.c, {
                         cx: ox,
                         cy: oy,
                         stroke: "white",
-                        "stroke-width": 2,
+                        "stroke-width": 1,
                         fill: element.color,
                         r: "5",
-                        //label: data.labels[i],
+                        label: data.labels[i],
                         value: e,
+                        class: "yac-tt " + element.class
                     })
-                    s.appendChild(cl);
+                    arr_points.push(cl);
                 }
+                //numbers near points
                 if (data.numbers) {
                     var lbvalue = makeSVG(sE.t, {
                         x: ox,
@@ -197,31 +213,53 @@
                     }, e);
                     s.appendChild(lbvalue);
                 };
-
-
+                //labels on x axis (only first time)
                 if (index == 0) {
                     var lb = makeSVG(sE.t, {
                         x: ox,
                         y: viewporty,
+                        width: (viewportx / ncol),
                         "text-anchor": "middle",
-                        "alignment-baseline": "text-before-edge"
+                        "alignment-baseline": "text-before-edge",
+                        class:"baselabel",
+                        label: data.labels[i],
+                        value:"",
                     }, data.labels[i]);
                     s.appendChild(lb);
+                    addtt(lb);
                 }
-
-                points += ox + "," + oy + " ";
+                    points += ox + "," + oy + " ";
             });
-            points += ox + "," + viewporty;
+            //create filled area of the line
+            if (data.areafill){
+                areapoints = 0 + "," + viewporty + " " + points + " " + ox + "," + viewporty;
+                var al = makeSVG(sE.p,{
+                    "stroke-width": 0,
+                    fill: element.fill,
+                    points: areapoints,
+                    class: element.class
+                });
+                s.appendChild(al);
+            }
+            //line
             var l = makeSVG(sE.p, {
                 stroke: element.color,
                 "stroke-width": 3,
-                fill: color,
+                fill:"none",
                 points: points,
                 class: element.class
             });
             s.appendChild(l);
+            //append all points
+            arr_points.forEach(function (e,i) {
+                s.appendChild(e);
+                e.addEventListener("click", data.click);
+                addtt(e);
+            })
+            data.vline=false;
         })
     }
+    //main wrapper
     function getWrapper(){
         return makeSVG("svg", {
             x: 0,
@@ -231,19 +269,27 @@
         });
         
     }
+    //real wrapper of chart
     function getChildWrapper(){
         return makeSVG("svg", {
-            x: "5%",
-            y: "5%",
-            width: "90%",
-            height: "90%",
+            x: "10%",
+            y: "10%",
+            width: "80%",
+            height: "80%",
             //fill: "#22222",
             style: "overflow:visible;",
             viewBox: "0 0 " + viewportx + " " + viewporty
         });
     }
-    function makeSVG(tag, attrs, value) {
-        var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    //create an svg element passing name of the tag, and it's attributes as object
+    function makeSVG(tag, attrs, value, notsvg) {
+        var el;
+        if (notsvg){
+            el = document.createElement(tag);
+        } else {
+            el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+        }
+         
         for (var k in attrs)
             el.setAttribute(k, attrs[k]);
         if (value != null) {
@@ -251,6 +297,7 @@
         }
         return el;
     }
+    //generate axis x / y group
     function generateAxis(max) {
         var g = makeSVG("g");
         var liney = makeSVG(sE.l, { x1: "0%", x2: "0%", y1: "0%", y2: "100%", stroke: "#888888", "stroke-width": 1 });
@@ -282,6 +329,7 @@
         }
         return g
     }
+    //get max of array
     function getMax(arr) {
         var max = 0;
         arr.forEach(function(item, i) {
@@ -290,6 +338,7 @@
 
         return max;
     }
+    //round up number
     function roundMax(max) {
         if (max < 10)
             max = max.ceilTo(1);
@@ -303,6 +352,7 @@
             max = max.ceilTo(100);
         return max;
     }
+    //get total of array
     function getTot(arr) {
         var tot = 0;
         arr.forEach(function(item, i) {
@@ -310,6 +360,7 @@
         });
         return tot;
     }
+    //get arc
     function createSvgArc(x, y, r, startAngle, endAngle) {
         if (startAngle > endAngle) {
             var s = startAngle;
@@ -330,45 +381,133 @@
             'L', x, y
         ].join(' ');
     }
+    //get half arc between 2 angle
     function getHalfArc(x, y, r, startAngle, endAngle) {
         var ang = startAngle + ((endAngle - startAngle) / 2);
         var xa = x + Math.cos(ang) * r;
         var ya = y - (Math.sin(ang) * r);
         return { x: xa, y: ya };
     }
-
+    //create tooltip
+    function createTooltip(){
+        if (document.getElementsByClassName("yac-tooltip").length==0){
+            var tt = makeSVG("div",{
+                style:   'display:none;'
+                        +'opacity:0.8;'
+                        +'position:absolute;'
+                        +'min-width:50px;'
+                        +'padding:5px;'
+                        +'border-radius:2px;'
+                        +'background-color:black;'
+                        +'min-height:30px;'
+                        +'top:0;'
+                        +'left:0;'
+                        +'color:white;'
+                        +'text-align:center;'
+                        +'z-index:999;'
+                        +'},null,true);'
+                        +'tt.classList.add("yac-tooltip");'
+                        +'document.body.appendChild(tt);'
+            },null,true);
+            tt.classList.add("yac-tooltip");
+            document.body.appendChild(tt);
+        }
+    }
+    //tooltip event handler
+    function addtt(elem){
+        elem.addEventListener("mouseover", function (e){
+            ttOver(e, this);
+        });
+        elem.addEventListener("mouseout", function (e){
+            ttOut(e, this);
+        });
+        elem.addEventListener("touchstart", function (e){
+            ttTouchOver(e, this);
+        });
+        elem.addEventListener("touchend", function (e){
+            ttOut(e, this);
+        });
+    }
+    //tooltip touch event
+    function ttTouchOver(e, elem){
+        var cursorX = e.touches[0].pageX;
+        var cursorY = e.touches[0].pageY;
+        var tt = document.getElementsByClassName("yac-tooltip");
+        tt[0].style.display = "block";
+        tt[0].style.left = cursorX + "px";
+        tt[0].style.top = (cursorY - 50)  + "px";
+        tt[0].innerHTML = elem.getAttribute("label") + "<br>" + elem.getAttribute("value");
+    }
+    //tooltip mouseover event
+    function ttOver(e, elem){
+        var cursorX = e.pageX;
+        var cursorY = e.pageY;
+        var tt = document.getElementsByClassName("yac-tooltip");
+        tt[0].style.display = "block";
+        tt[0].style.left = cursorX + "px";
+        tt[0].style.top = cursorY + "px";
+        tt[0].innerHTML = elem.getAttribute("label") + "<br>" + elem.getAttribute("value");
+    }
+    //tooltip mouseout event
+    function ttOut(e, elem){
+        var tt = document.getElementsByClassName("yac-tooltip");
+        tt[0].style.display = "none";
+    }
+    //rotate labels on x axis if are too long
+    function fixBaseLabel(arr_base_labels){
+        var rotatebl=false;
+        for (var i=0;i<arr_base_labels.length;i++){
+                if (arr_base_labels[i].getBBox().width>arr_base_labels[i].attributes["width"].value){
+                    rotatebl = true;
+                }
+        }
+        if (rotatebl){
+            for (var i=0;i<arr_base_labels.length;i++){
+                var x = arr_base_labels[i].attributes["x"].value;
+                var y = arr_base_labels[i].attributes["y"].value;
+                arr_base_labels[i].setAttribute("transform","rotate(45 " + x + " " + y + ")");
+                arr_base_labels[i].setAttribute("text-anchor", "left");
+            }
+        }
+    }
     Number.prototype.ceilTo = function(nTo) {
         nTo = nTo || 10;
         return Math.ceil(this * (1 / nTo)) * nTo;
     }
     window.yac = function(t, sel, d) {
+        createTooltip();
+        selector = document.getElementById(sel);
+        viewportx = (selector.offsetWidth>0) ? selector.offsetWidth : viewportx ;
+        viewporty = (selector.offsetHeight>0) ? selector.offsetHeight : viewporty ;
         if (d.viewportx)
             viewportx = d.viewportx;
         if (d.viewporty)
             viewporty = d.viewporty;
         type = t;
-        selector = sel;
         data = d;
         s = getChildWrapper();
         wrapper = getWrapper();
 
         switch (type) {
             case "bar":
-                selector = bar(data);
+                bar(data);
                 break;
             case sE.l:
-                selector = line(data);
+                line(data);
                 break;
             case "pie":
-                selector = pie(data);
+                pie(data);
                 break;
             case "doughnut":
-                selector = doughnut(data);
+                doughnut(data);
                 break;
         }
 
         wrapper.appendChild(s);
-        document.getElementById(sel).appendChild(wrapper);
+        selector.appendChild(wrapper);
+        var arr_base_labels = selector.getElementsByClassName("baselabel");
+        if (arr_base_labels.length>0){
+            fixBaseLabel(arr_base_labels);
+        }
     }
-
 })();
