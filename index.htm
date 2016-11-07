@@ -1,68 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.2.1/material.min.css" />
+        <style>
+            .yourClass {
+                opacity: 0.5;
+            }
+            .yourClass:hover {
+                opacity: 1;
+                -webkit-transition: all 0.3s ease;
+                -moz-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+            }
+            .mdl-card{
+                width:100%;
+            }
+            .page-content{
+                background: #fafafa;
+            }
+        </style>
+    </head>
+    <body>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Yet Another Chart JS - YacJs</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-    <style>
-        body {}
-        
-        .container {}
-        
-        .row {
-            background-color: #eeeeee;
-        }
-        
-        .yourClass {
-            opacity: 0.5;
-        }
-        
-        .reset {
-            height: 0;
-        }
-        
-        .yourClass:hover {
-            opacity: 1;
-            -webkit-transition: all 0.3s ease;
-            -moz-transition: all 0.3s ease;
-            -ms-transition: all 0.3s ease;
-            -o-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="chart1" style="height:400px;">
+        <!-- Always shows a header, even in smaller screens. -->
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Yet Another Chart</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+            <!-- Navigation. We hide it in small screens. -->
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+                <a class="mdl-navigation__link" href="#bar"><i class="material-icons">insert_chart</i></a>
+                <a class="mdl-navigation__link" href="#line"><i class="material-icons">timeline</i></a>
+                <a class="mdl-navigation__link" href="#pie"><i class="material-icons">pie_chart</i></a>
+                <a class="mdl-navigation__link" href="#doughnut"><i class="material-icons">donut_small</i></a>  
+            </nav>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="chart2" style="height:400px;">
-            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">YAC JS</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="#bar"><i class="material-icons">insert_chart</i> Bar Chart</a>
+                <a class="mdl-navigation__link" href="#line"><i class="material-icons">timeline</i> Multiline Chart</a>
+                <a class="mdl-navigation__link" href="#pie"><i class="material-icons">pie_chart</i> Pie Chart</a>
+                <a class="mdl-navigation__link" href="#doughnut"><i class="material-icons">donut_small</i> Doughnut Chart</a>  
+            </nav>
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="chart3" style="height:400px;">
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--3-col"></div>
+                    <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet" id="bar">                       
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title">
+                                <h2 class="mdl-card__title-text">Bar Chart</h2>
+                            </div>
+                            <div class="mdl-card__supporting-text" id="barchart" style="height:300px;">
+                                
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                Get Started
+                                </a>
+                            </div>
+                            <div class="mdl-card__menu">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                <i class="material-icons">code</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--3-col"></div>
+                    <div class="mdl-cell mdl-cell--3-col"></div>
+                    <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet" id="line">
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title">
+                                <h2 class="mdl-card__title-text">Multiline Chart</h2>
+                            </div>
+                            <div class="mdl-card__supporting-text" id="linechart" style="height:300px;">
+                                
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                Get Started
+                                </a>
+                            </div>
+                            <div class="mdl-card__menu">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                <i class="material-icons">code</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--3-col"></div>
+                    <div class="mdl-cell mdl-cell--3-col"></div>
+                    <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet" id="pie">                       
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title">
+                                <h2 class="mdl-card__title-text">Pie Chart</h2>
+                            </div>
+                            <div class="mdl-card__supporting-text" id="piechart" style="height:300px;">
+                                
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                Get Started
+                                </a>
+                            </div>
+                            <div class="mdl-card__menu">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                <i class="material-icons">code</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--3-col"></div>
+                    <div class="mdl-cell mdl-cell--3-col"></div>
+                    <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet" id="doughnut">                       
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title">
+                                <h2 class="mdl-card__title-text">Doughnut Chart</h2>
+                            </div>
+                            <div class="mdl-card__supporting-text" id="doughnutchart" style="height:300px;">
+                                
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                Get Started
+                                </a>
+                            </div>
+                            <div class="mdl-card__menu">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                <i class="material-icons">code</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--3-col"></div>
+
+                </div>
+
+                
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="chart4" style="height:400px;">
-            </div>
+        </main>
         </div>
-    </div>
 
 
-    <script type="text/javascript" src="js/yac.js"></script>
-    <script type="text/javascript">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.2.1/material.min.js"></script>
+        <script type="text/javascript" src="js/yac.js"></script>
+        <script type="text/javascript">
         function ready(fn) {
             if (document.readyState != 'loading') {
                 fn();
@@ -73,27 +168,65 @@
         ready(documentready);
 
         function documentready() {
+            var dataline2 = {
+                columns: [{
+                    values: [23, 526, 389, 145, 268, 345],
+                    color: "red",
+                    fill: "rgba(255,0,0,0.4)",
+                    //class: "yourClass"
+                }, {
+                    values: [553, 226, 189, 245, 268, 315],
+                    color: "yellow",
+                    fill: "rgba(120,120,0,0.4)",
+                    //class: "yourClass"
+                }, {
+                    values: [443, 326, 289, 45, 28, 46],
+                    color: "blue",
+                    fill: "rgba(0,0,255,0.4)",
+                    //class: "yourClass"
+                }, {
+                    values: [23, 126, 189, 245, 28, 456],
+                    color: "green",
+                    fill: "rgba(0,255,0,0.4)",
+                    //class: "yourClass"
+                }, ],
+                labels: ["January", "February", "March", "April", "May", "June"],
+                areafill: true,
+                numbers: false,
+                vline: true,
+                points: true
+            }
             var dataline = {
                 columns: [{
                     values: [23, 526, 389, 145, 268, 345],
                     color: "red",
-                    class: "yourClass"
-                }, {
-                    values: [553, 226, 189, 245, 268, 315],
-                    color: "yellow",
-                    class: "yourClass"
-                }, {
-                    values: [443, 326, 289, 45, 28, 46],
-                    color: "blue",
-                    class: "yourClass"
-                }, {
-                    values: [23, 126, 189, 245, 28, 456],
-                    color: "green",
-                    class: "yourClass"
-                }, ],
+                    fill: "rgba(255,0,0,0.4)",
+                    //class: "yourClass"
+                }],
                 labels: ["January", "February", "March", "April", "May", "June"],
-                fill: true,
+                areafill: true,
                 numbers: false,
+                points: true,
+                vline: true,
+                click: function(e) {
+                    alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
+                },
+            }
+            var dataline3 = {
+                columns: [{
+                    values: [23, 526, 389, 145, 268, 345],
+                    color: "red",
+                    fill: "rgba(255,0,0,0.4)",
+                    //class: "yourClass"
+                }],
+                labels: ["January", "February", "March", "April", "May", "June"],
+                areafill: true,
+                numbers: false,
+                points: true,
+                vline: true,
+                click: function(e) {
+                    alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
+                },
             }
             var data = {
                 columns: [{
@@ -154,17 +287,45 @@
                 click: function(e) {
                     alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
                 },
-                mouseover: function(e) {
-                    //alert($(e.target).attr("label") + " - " + $(e.target).attr("value"));
-                },
-                numbers: true,
+                numbers: false,
             }
-            chart1 = new yac("pie", "chart1", data);
-            chart2 = new yac("doughnut", "chart2", data);
-            chart3 = new yac("bar", "chart3", data);
-            chart4 = new yac("line", "chart4", dataline);
+            var data2 = {
+                columns: [{
+                    value: 20,
+                    fill: "rgba(255,0,0,0.4)",
+                    stroke: "rgba(255,0,0,1",
+                    label: "2012",
+                    //class: "yourClass"
+                }, {
+                    value: 123,
+                    fill: "rgba(0,255,0,0.4)",
+                    stroke: "rgba(0,255,0,1)",
+                    label: "2013",
+                    //class: "yourClass"
+                }, {
+                    value: 232,
+                    fill: "rgba(0,0,255,0.4)",
+                    stroke: "rgba(0,0,255,1)",
+                    label: "2014",
+                    //class: "yourClass"
+                }, {
+                    value: 160,
+                    fill: "rgba(255,255,0,0.4)",
+                    stroke: "rgba(255,255,0,1)",
+                    label: "2015",
+                    //class: "yourClass"
+                }],
+                click: function(e) {
+                    alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
+                },
+                numbers: false,
+            }
+            chart1 = new yac("bar", "barchart", data);
+            chart2 = new yac("line", "linechart", dataline3);
+            chart3 = new yac("pie", "piechart", data);
+            chart4 = new yac("doughnut", "doughnutchart", data);
+            
         };
     </script>
-</body>
-
+    </body>
 </html>
