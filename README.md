@@ -25,97 +25,86 @@ Using SVG it has no other dependencies.
 <li>Declare your data object for multiline chart:<br>
   <pre>
     <code>
-      var dataline = {
-                      columns: [{
-                          values: [23, 526, 389, 145, 268, 345],
-                          color: "red",
-                          class: "yourClass"
-                      }, {
-                          values: [553, 226, 189, 245, 268, 315],
-                          color: "yellow",
-                          class: "yourClass"
-                      }, {
-                          values: [443, 326, 289, 45, 28, 46],
-                          color: "blue",
-                          class: "yourClass"
-                      }, {
-                          values: [23, 126, 189, 245, 28, 456],
-                          color: "green",
-                          class: "yourClass"
-                      }, ],
-                      labels: ["January", "February", "March", "April", "May", "June"],
-                      fill: true,
-                      numbers: false,
-                  }
+           var dataline = {
+                columns: [{
+                    values: [23, 526, 389, 145, 268, 345],
+                    color: "red",
+                    fill: "rgba(255,0,0,0.4)",
+                    class: "animate-line",
+                },
+                {
+                values: [123, 226, 289, 445, 268, 145],
+                    color: "green",
+                    fill: "rgba(0,255,0,0.0)"
+                }
+                ],
+                labels: ["January", "February", "March", "April", "May", "June"],
+                areafill: true,
+                numbers: false,
+                points: true,
+                vline: true,
+                click: function(e) {
+                    alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
+                },
+            }
     </code>
   </pre>
 </li>
 <li>Declare your data object for other charts:<br>
   <pre>
     <code>
-      var data = {
+       var data = {
                 columns: [{
                     value: 20,
                     fill: "red",
                     stroke: "white",
-                    label: "January",
                     class: "yourClass"
                 }, {
                     value: 123,
                     fill: "green",
                     stroke: "white",
-                    label: "February",
                     class: "yourClass"
                 }, {
                     value: 232,
                     fill: "blue",
                     stroke: "white",
-                    label: "March",
                     class: "yourClass"
                 }, {
                     value: 160,
                     fill: "yellow",
                     stroke: "white",
-                    label: "April",
                     class: "yourClass"
                 }, {
                     value: 124,
                     fill: "purple",
                     stroke: "white",
-                    label: "May",
                     class: "yourClass"
                 }, {
                     value: 190,
                     fill: "magenta",
                     stroke: "white",
-                    label: "June",
                     class: "yourClass"
                 }, {
                     value: 60,
                     fill: "gray",
                     stroke: "white",
-                    label: "July",
                     class: "yourClass"
                 }, {
                     value: 30,
                     fill: "yellow",
                     stroke: "white",
-                    label: "August",
                     class: "yourClass"
                 }, {
                     value: 200,
                     fill: "green",
                     stroke: "white",
-                    label: "September",
                     class: "yourClass"
                 }],
+                labels:["January","February","March","April","May","June","July","August","September"],
                 click: function(e) {
                     alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
                 },
-                mouseover: function(e) {
-                    //alert($(e.target).attr("label") + " - " + $(e.target).attr("value"));
-                },
-                numbers: true,
+                numbers: false,
             }
     </code>
   </pre>
