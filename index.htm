@@ -24,6 +24,22 @@
             .page-content{
                 background: #fafafa;
             }
+            .animate-line {
+                stroke-dasharray: 5px;
+                -webkit-animation: dashoffset 1s linear infinite;
+                -moz-animation: dashoffset 1s linear infinite;
+                -o-animation: dashoffset 1s linear infinite;
+                animation: dashoffset 1s linear infinite;
+            }
+                    
+            @keyframes dashoffset {
+                0% {
+                    stroke-dashoffset: 0
+                }
+                100% {
+                    stroke-dashoffset: -20px
+                }
+            }
         </style>
     </head>
     <body>
@@ -39,9 +55,10 @@
             <!-- Navigation. We hide it in small screens. -->
             <nav class="mdl-navigation mdl-layout--large-screen-only">
                 <a class="mdl-navigation__link" href="#bar"><i class="material-icons">insert_chart</i></a>
-                <a class="mdl-navigation__link" href="#line"><i class="material-icons">timeline</i></a>
+                <a class="mdl-navigation__link" href="#line"><i class="material-icons">multiline_chart</i></a>
                 <a class="mdl-navigation__link" href="#pie"><i class="material-icons">pie_chart</i></a>
-                <a class="mdl-navigation__link" href="#doughnut"><i class="material-icons">donut_small</i></a>  
+                <a class="mdl-navigation__link" href="#doughnut"><i class="material-icons">donut_small</i></a> 
+                <a class="mdl-navigation__link" href="#singlevalue"><i class="material-icons">data_usage</i></a>  
             </nav>
             </div>
         </header>
@@ -49,9 +66,10 @@
             <span class="mdl-layout-title">YAC JS</span>
             <nav class="mdl-navigation">
                 <a class="mdl-navigation__link" href="#bar"><i class="material-icons">insert_chart</i> Bar Chart</a>
-                <a class="mdl-navigation__link" href="#line"><i class="material-icons">timeline</i> Multiline Chart</a>
+                <a class="mdl-navigation__link" href="#line"><i class="material-icons">multiline_chart</i> Multiline Chart</a>
                 <a class="mdl-navigation__link" href="#pie"><i class="material-icons">pie_chart</i> Pie Chart</a>
-                <a class="mdl-navigation__link" href="#doughnut"><i class="material-icons">donut_small</i> Doughnut Chart</a>  
+                <a class="mdl-navigation__link" href="#doughnut"><i class="material-icons">donut_small</i> Doughnut Chart</a>
+                <a class="mdl-navigation__link" href="#singlevalue"><i class="material-icons">data_usage</i> Single Value</a>  
             </nav>
         </div>
         <main class="mdl-layout__content">
@@ -145,6 +163,28 @@
                         </div>
                     </div>
                     <div class="mdl-cell mdl-cell--3-col"></div>
+                    <div class="mdl-cell mdl-cell--3-col"></div>
+                    <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet" id="singlevalue">                       
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title">
+                                <h2 class="mdl-card__title-text">Single Value</h2>
+                            </div>
+                            <div class="mdl-card__supporting-text" id="singlevaluechart" style="height:300px;">
+                                
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                Get Started
+                                </a>
+                            </div>
+                            <div class="mdl-card__menu">
+                                <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                <i class="material-icons">code</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--3-col"></div>
 
                 </div>
 
@@ -168,56 +208,12 @@
         ready(documentready);
 
         function documentready() {
-            var dataline2 = {
-                columns: [{
-                    values: [23, 526, 389, 145, 268, 345],
-                    color: "red",
-                    fill: "rgba(255,0,0,0.4)",
-                    //class: "yourClass"
-                }, {
-                    values: [553, 226, 189, 245, 268, 315],
-                    color: "yellow",
-                    fill: "rgba(120,120,0,0.4)",
-                    //class: "yourClass"
-                }, {
-                    values: [443, 326, 289, 45, 28, 46],
-                    color: "blue",
-                    fill: "rgba(0,0,255,0.4)",
-                    //class: "yourClass"
-                }, {
-                    values: [23, 126, 189, 245, 28, 456],
-                    color: "green",
-                    fill: "rgba(0,255,0,0.4)",
-                    //class: "yourClass"
-                }, ],
-                labels: ["January", "February", "March", "April", "May", "June"],
-                areafill: true,
-                numbers: false,
-                vline: true,
-                points: true
-            }
             var dataline = {
                 columns: [{
                     values: [23, 526, 389, 145, 268, 345],
                     color: "red",
                     fill: "rgba(255,0,0,0.4)",
-                    //class: "yourClass"
-                }],
-                labels: ["January", "February", "March", "April", "May", "June"],
-                areafill: true,
-                numbers: false,
-                points: true,
-                vline: true,
-                click: function(e) {
-                    alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
-                },
-            }
-            var dataline3 = {
-                columns: [{
-                    values: [23, 526, 389, 145, 268, 345],
-                    color: "red",
-                    fill: "rgba(255,0,0,0.4)",
-                    //class: "yourClass"
+                    class: "animate-line",
                 }],
                 labels: ["January", "February", "March", "April", "May", "June"],
                 areafill: true,
@@ -233,98 +229,65 @@
                     value: 20,
                     fill: "red",
                     stroke: "white",
-                    label: "January",
                     class: "yourClass"
                 }, {
                     value: 123,
                     fill: "green",
                     stroke: "white",
-                    label: "February",
                     class: "yourClass"
                 }, {
                     value: 232,
                     fill: "blue",
                     stroke: "white",
-                    label: "March",
                     class: "yourClass"
                 }, {
                     value: 160,
                     fill: "yellow",
                     stroke: "white",
-                    label: "April",
                     class: "yourClass"
                 }, {
                     value: 124,
                     fill: "purple",
                     stroke: "white",
-                    label: "May",
                     class: "yourClass"
                 }, {
                     value: 190,
                     fill: "magenta",
                     stroke: "white",
-                    label: "June",
                     class: "yourClass"
                 }, {
                     value: 60,
                     fill: "gray",
                     stroke: "white",
-                    label: "July",
                     class: "yourClass"
                 }, {
                     value: 30,
                     fill: "yellow",
                     stroke: "white",
-                    label: "August",
                     class: "yourClass"
                 }, {
                     value: 200,
                     fill: "green",
                     stroke: "white",
-                    label: "September",
                     class: "yourClass"
                 }],
+                labels:["January","February","March","April","May","June","July","August","September"],
                 click: function(e) {
                     alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
                 },
                 numbers: false,
             }
-            var data2 = {
-                columns: [{
-                    value: 20,
-                    fill: "rgba(255,0,0,0.4)",
-                    stroke: "rgba(255,0,0,1",
-                    label: "2012",
-                    //class: "yourClass"
-                }, {
-                    value: 123,
-                    fill: "rgba(0,255,0,0.4)",
-                    stroke: "rgba(0,255,0,1)",
-                    label: "2013",
-                    //class: "yourClass"
-                }, {
-                    value: 232,
-                    fill: "rgba(0,0,255,0.4)",
-                    stroke: "rgba(0,0,255,1)",
-                    label: "2014",
-                    //class: "yourClass"
-                }, {
-                    value: 160,
-                    fill: "rgba(255,255,0,0.4)",
-                    stroke: "rgba(255,255,0,1)",
-                    label: "2015",
-                    //class: "yourClass"
-                }],
-                click: function(e) {
-                    alert((e.target).getAttribute("label") + " - " + e.target.getAttribute("value"));
-                },
-                numbers: false,
+            var datasingle = {
+                pct:90,
+                fill:"red",
+                label:"Your Label",
+                value:"90%"
             }
             chart1 = new yac("bar", "barchart", data);
-            chart2 = new yac("line", "linechart", dataline3);
+            chart2 = new yac("line", "linechart", dataline);
             chart3 = new yac("pie", "piechart", data);
             chart4 = new yac("doughnut", "doughnutchart", data);
-            
+            chart5 = new yac("singlevalue","singlevaluechart",datasingle)
         };
     </script>
     </body>
